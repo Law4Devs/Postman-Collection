@@ -1,0 +1,924 @@
+{
+  "info": {
+    "_postman_id": "992530ac-ddaf-4e48-8377-84465db0f9d3",
+    "name": "Law4Devs API",
+    "description": "Structured EU regulatory compliance data for developers.\n\nAll 19 major EU digital regulations \u2014 CRA, NIS2, DORA, GDPR, AI Act, eIDAS,\nDSA, DMA, Data Act, DGA, eIDAS2, CER, PSD2, MiCA, Cybersecurity Act,\nePrivacy, RED, CSRD, NIS1 \u2014 parsed into structured articles, recitals,\nrequirements, compliance deadlines, and tags.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://api.law4devs.eu",
+      "type": "string",
+      "description": "Base URL of the Law4Devs API (no trailing slash)"
+    }
+  ],
+  "item": [
+    {
+      "id": "a399e6b1-6271-4425-9345-9a16f6fc5359",
+      "name": "Health",
+      "description": "API and database health check",
+      "item": [
+        {
+          "id": "1c8669fb-8765-47e7-87a0-9d72bfae16ba",
+          "name": "Health check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/health",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "health"
+              ]
+            },
+            "description": "Returns API status and database connectivity."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "e0d38418-d0cf-4279-ac54-9255ebd6637a",
+      "name": "Frameworks",
+      "description": "EU regulatory frameworks (CRA, NIS2, GDPR, etc.)",
+      "item": [
+        {
+          "id": "9e89ad7e-d990-415b-b643-611faad5ac35",
+          "name": "List all active frameworks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/frameworks",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "frameworks"
+              ]
+            },
+            "description": "Returns all active EU regulatory frameworks ordered by slug."
+          },
+          "response": []
+        },
+        {
+          "id": "85c1fe8f-328c-4e2e-bcd7-bbf012112e51",
+          "name": "Get framework detail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/frameworks/:slug",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "frameworks",
+                ":slug"
+              ],
+              "variable": [
+                {
+                  "key": "slug",
+                  "value": "cra",
+                  "description": "Framework slug (e.g. `cra`, `nis2`, `gdpr`)"
+                }
+              ]
+            },
+            "description": "Returns full framework metadata including counts (articles, recitals,\nrequirements, annexes, tags) and coverage percentages.\n"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "a2663564-ba9f-4f54-b8ba-94469c91ecd7",
+      "name": "Articles",
+      "description": "Individual articles within a framework",
+      "item": [
+        {
+          "id": "850abed4-bd1b-4f72-a1f0-91683733b5b0",
+          "name": "List articles for a framework",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/frameworks/:slug/articles",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "frameworks",
+                ":slug",
+                "articles"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number (1-based)",
+                  "disabled": true
+                },
+                {
+                  "key": "per_page",
+                  "value": "20",
+                  "description": "Results per page (max 100)",
+                  "disabled": true
+                },
+                {
+                  "key": "tag",
+                  "value": "vulnerability-reporting",
+                  "description": "Filter articles that have this tag slug",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "cybersecurity",
+                  "description": "Full-text search within article title and content",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "slug",
+                  "value": "cra",
+                  "description": "Framework slug (e.g. `cra`, `nis2`, `gdpr`)"
+                }
+              ]
+            },
+            "description": "Returns paginated articles for a framework. Supports optional filtering\nby tag slug and full-text search within article titles and content.\n"
+          },
+          "response": []
+        },
+        {
+          "id": "d83c7922-325a-47b3-8ef8-44717d074d3f",
+          "name": "Get a single article",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/frameworks/:slug/articles/:article_number",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "frameworks",
+                ":slug",
+                "articles",
+                ":article_number"
+              ],
+              "variable": [
+                {
+                  "key": "slug",
+                  "value": "cra",
+                  "description": "Framework slug (e.g. `cra`, `nis2`, `gdpr`)"
+                },
+                {
+                  "key": "article_number",
+                  "value": "1",
+                  "description": "Article number (e.g. 1, 2, 14)"
+                }
+              ]
+            },
+            "description": "Returns the full article including its content, ordered paragraphs,\nand associated tags.\n"
+          },
+          "response": []
+        },
+        {
+          "id": "3eb6410c-d927-4654-9f32-464c9890e604",
+          "name": "Get related articles and requirements",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/frameworks/:slug/articles/:article_number/related",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "frameworks",
+                ":slug",
+                "articles",
+                ":article_number",
+                "related"
+              ],
+              "variable": [
+                {
+                  "key": "slug",
+                  "value": "cra",
+                  "description": "Framework slug (e.g. `cra`, `nis2`, `gdpr`)"
+                },
+                {
+                  "key": "article_number",
+                  "value": "1",
+                  "description": ""
+                }
+              ]
+            },
+            "description": "Returns articles and requirements that cross-reference this article\nvia `linked_article_numbers`. Includes both outbound references\n(articles this one links to) and inbound references (articles linking\nto this one).\n"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "56c5de2d-c5a2-4beb-9803-c2c6c3b7c155",
+      "name": "Recitals",
+      "description": "Recitals (preamble paragraphs) within a framework",
+      "item": [
+        {
+          "id": "58a37a1b-a100-4e40-8179-4a4d469ad9f0",
+          "name": "List recitals for a framework",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/frameworks/:slug/recitals",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "frameworks",
+                ":slug",
+                "recitals"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number (1-based)",
+                  "disabled": true
+                },
+                {
+                  "key": "per_page",
+                  "value": "20",
+                  "description": "Results per page (max 100)",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "slug",
+                  "value": "cra",
+                  "description": "Framework slug (e.g. `cra`, `nis2`, `gdpr`)"
+                }
+              ]
+            },
+            "description": "Returns paginated recitals (preamble paragraphs) ordered by recital number."
+          },
+          "response": []
+        },
+        {
+          "id": "853d3dbc-8259-41ad-9012-1a08cb6dc626",
+          "name": "Get a single recital",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/frameworks/:slug/recitals/:recital_number",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "frameworks",
+                ":slug",
+                "recitals",
+                ":recital_number"
+              ],
+              "variable": [
+                {
+                  "key": "slug",
+                  "value": "cra",
+                  "description": "Framework slug (e.g. `cra`, `nis2`, `gdpr`)"
+                },
+                {
+                  "key": "recital_number",
+                  "value": "1",
+                  "description": "Recital number"
+                }
+              ]
+            },
+            "description": "Get a single recital"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "3a6026bd-fcf3-40ec-9e33-75f351e0fa72",
+      "name": "Requirements",
+      "description": "Extracted compliance requirements with stakeholder role mappings",
+      "item": [
+        {
+          "id": "b5955879-01e1-47dc-bd1e-8c2f13a6fa83",
+          "name": "List requirements for a framework",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/frameworks/:slug/requirements",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "frameworks",
+                ":slug",
+                "requirements"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number (1-based)",
+                  "disabled": true
+                },
+                {
+                  "key": "per_page",
+                  "value": "20",
+                  "description": "Results per page (max 100)",
+                  "disabled": true
+                },
+                {
+                  "key": "role",
+                  "value": "manufacturer",
+                  "description": "Filter by stakeholder role (e.g. manufacturer, importer, distributor)",
+                  "disabled": true
+                },
+                {
+                  "key": "type",
+                  "value": "",
+                  "description": "Filter by requirement type",
+                  "disabled": true
+                },
+                {
+                  "key": "tag",
+                  "value": "risk-assessment",
+                  "description": "Filter by tag slug",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "slug",
+                  "value": "cra",
+                  "description": "Framework slug (e.g. `cra`, `nis2`, `gdpr`)"
+                }
+              ]
+            },
+            "description": "Returns paginated compliance requirements extracted from a framework's\narticles. Filterable by stakeholder role, requirement type, and tag.\n"
+          },
+          "response": []
+        },
+        {
+          "id": "1cd0a63e-75ae-4cdf-9c3b-7f87b39c5363",
+          "name": "List requirements across all frameworks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/requirements",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "requirements"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number (1-based)",
+                  "disabled": true
+                },
+                {
+                  "key": "per_page",
+                  "value": "20",
+                  "description": "Results per page (max 100)",
+                  "disabled": true
+                },
+                {
+                  "key": "framework",
+                  "value": "cra",
+                  "description": "Limit to one framework slug",
+                  "disabled": true
+                },
+                {
+                  "key": "role",
+                  "value": "manufacturer",
+                  "description": "Filter by stakeholder role",
+                  "disabled": true
+                },
+                {
+                  "key": "type",
+                  "value": "",
+                  "description": "Filter by requirement type",
+                  "disabled": true
+                },
+                {
+                  "key": "tag",
+                  "value": "",
+                  "description": "Filter by tag slug",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Cross-framework requirements endpoint. Returns all requirements from\nall active frameworks. Optionally filter to a single framework,\nstakeholder role, type, or tag.\n"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "5f4a86cf-2b81-401e-8385-7e784e42c445",
+      "name": "Annexes",
+      "description": "Technical annexes attached to a framework",
+      "item": [
+        {
+          "id": "28c97547-4c2a-49f3-b36e-aaba04a446ad",
+          "name": "List annexes for a framework",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/frameworks/:slug/annexes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "frameworks",
+                ":slug",
+                "annexes"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number (1-based)",
+                  "disabled": true
+                },
+                {
+                  "key": "per_page",
+                  "value": "20",
+                  "description": "Results per page (max 100)",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "slug",
+                  "value": "cra",
+                  "description": "Framework slug (e.g. `cra`, `nis2`, `gdpr`)"
+                }
+              ]
+            },
+            "description": "List annexes for a framework"
+          },
+          "response": []
+        },
+        {
+          "id": "371c523c-89b9-4215-835c-c727efb4a195",
+          "name": "Get a single annex",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/frameworks/:slug/annexes/:annex_number",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "frameworks",
+                ":slug",
+                "annexes",
+                ":annex_number"
+              ],
+              "variable": [
+                {
+                  "key": "slug",
+                  "value": "cra",
+                  "description": "Framework slug (e.g. `cra`, `nis2`, `gdpr`)"
+                },
+                {
+                  "key": "annex_number",
+                  "value": "I",
+                  "description": "Annex identifier (e.g. \"I\", \"II\", \"III\", \"IV\")"
+                }
+              ]
+            },
+            "description": "Get a single annex"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "4f4ae3f6-7307-40f8-ae87-6d753e5a90d8",
+      "name": "Compliance",
+      "description": "Compliance deadlines and key dates",
+      "item": [
+        {
+          "id": "67806e7f-62eb-4bb5-96a5-d0973d113278",
+          "name": "List compliance deadlines for a framework",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/frameworks/:slug/compliance/deadlines",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "frameworks",
+                ":slug",
+                "compliance",
+                "deadlines"
+              ],
+              "variable": [
+                {
+                  "key": "slug",
+                  "value": "cra",
+                  "description": "Framework slug (e.g. `cra`, `nis2`, `gdpr`)"
+                }
+              ]
+            },
+            "description": "Returns all compliance deadlines for the framework, ordered by date."
+          },
+          "response": []
+        },
+        {
+          "id": "dc55a315-fa93-403a-a7bc-139a177b8e67",
+          "name": "List all compliance deadlines across all frameworks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/compliance/deadlines",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "compliance",
+                "deadlines"
+              ],
+              "query": [
+                {
+                  "key": "framework",
+                  "value": "cra",
+                  "description": "Filter by framework slug",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Returns all compliance deadlines across all active frameworks, ordered\nby date. Useful for building compliance calendars. Filter by framework\nslug to scope to a single regulation.\n"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "eed8b26b-9a16-457d-85d8-3dcc8b248bce",
+      "name": "Stats",
+      "description": "Coverage statistics per framework",
+      "item": [
+        {
+          "id": "39aee4b9-e26a-433d-9e59-8e13e5341662",
+          "name": "Coverage statistics for a single framework",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/frameworks/:slug/stats",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "frameworks",
+                ":slug",
+                "stats"
+              ],
+              "variable": [
+                {
+                  "key": "slug",
+                  "value": "cra",
+                  "description": "Framework slug (e.g. `cra`, `nis2`, `gdpr`)"
+                }
+              ]
+            },
+            "description": "Returns article, recital, requirement, annex, and tag counts for the\nframework, including coverage percentages vs. expected totals.\n"
+          },
+          "response": []
+        },
+        {
+          "id": "bdb78853-3c38-42fb-abc2-89cddd8d43a4",
+          "name": "Coverage statistics for all active frameworks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/stats",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "stats"
+              ]
+            },
+            "description": "Returns stats for every active framework in one call."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "13719b67-59d2-4dc9-bfb7-d28231bba5e7",
+      "name": "Search",
+      "description": "Full-text search across articles, recitals, and requirements",
+      "item": [
+        {
+          "id": "46b9e322-9e61-4e61-935e-3c0331790779",
+          "name": "Full-text search across articles, recitals, and requirements",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/search",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "cybersecurity requirements",
+                  "description": "Search query (2\u2013500 characters)",
+                  "disabled": true
+                },
+                {
+                  "key": "framework",
+                  "value": "cra",
+                  "description": "Limit search to one framework slug",
+                  "disabled": true
+                },
+                {
+                  "key": "tag",
+                  "value": "risk-assessment",
+                  "description": "Filter results to those with this tag slug",
+                  "disabled": true
+                },
+                {
+                  "key": "role",
+                  "value": "manufacturer",
+                  "description": "Filter requirements by stakeholder role",
+                  "disabled": true
+                },
+                {
+                  "key": "type",
+                  "value": "",
+                  "description": "Limit to one result type",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number (1-based)",
+                  "disabled": true
+                },
+                {
+                  "key": "per_page",
+                  "value": "20",
+                  "description": "Results per page (max 100)",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Searches article titles and content, recital content, and requirement\ntext across all active frameworks. Returns ranked results with context\nsnippets. Supports filtering by framework, tag, stakeholder role,\nand result type.\n\nQuery must be at least 2 characters and at most 500 characters.\n"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "8a9b6ddb-4724-4653-a8d0-fd1014e1300a",
+      "name": "Tags",
+      "description": "Semantic tags used to classify content",
+      "item": [
+        {
+          "id": "094c1589-4536-4971-8cd4-c63d0fe058b4",
+          "name": "List all tags",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/tags",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "tags"
+              ]
+            },
+            "description": "Returns all semantic tags used to classify articles and requirements."
+          },
+          "response": []
+        },
+        {
+          "id": "41d7ea43-4da0-4db1-994d-8a230c9d793d",
+          "name": "Get tag detail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/tags/:slug",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "tags",
+                ":slug"
+              ],
+              "variable": [
+                {
+                  "key": "slug",
+                  "value": "cra",
+                  "description": "Framework slug (e.g. `cra`, `nis2`, `gdpr`)"
+                }
+              ]
+            },
+            "description": "Returns a single tag with its keywords and metadata."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "3324b711-8f4e-4d72-bf64-e580f031c47d",
+      "name": "Changelog",
+      "description": "Content update history and data freshness",
+      "item": [
+        {
+          "id": "c4708592-b696-47a9-9204-944393805482",
+          "name": "Content update history for a framework",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/frameworks/:slug/changelog",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "frameworks",
+                ":slug",
+                "changelog"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Maximum number of log entries (default 20)",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "slug",
+                  "value": "cra",
+                  "description": "Framework slug (e.g. `cra`, `nis2`, `gdpr`)"
+                }
+              ]
+            },
+            "description": "Returns content update log entries for a specific framework, newest first.\nUse this to check when data was last updated and how many records\nwere added or modified.\n"
+          },
+          "response": []
+        },
+        {
+          "id": "f6aec862-3ab8-484d-9b0f-29724201f6ed",
+          "name": "Global content update changelog",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/changelog",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "changelog"
+              ],
+              "query": [
+                {
+                  "key": "framework",
+                  "value": "cra",
+                  "description": "Filter by framework slug",
+                  "disabled": true
+                },
+                {
+                  "key": "since",
+                  "value": "2025-01-01T00:00:00Z",
+                  "description": "Only return entries after this ISO 8601 datetime",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "20",
+                  "description": "Maximum number of entries (default 50)",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Returns content update log entries across all frameworks, newest first.\nFilter by framework slug or date to scope results.\n"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "id": "ee6d23dd-1a8c-4443-bd81-bd152e3efcb6",
+      "name": "Compare",
+      "description": "Cross-framework article comparison",
+      "item": [
+        {
+          "id": "f85af7b8-511f-44cf-af98-e4b7bc092fe1",
+          "name": "Compare articles across multiple frameworks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/compare",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "compare"
+              ],
+              "query": [
+                {
+                  "key": "frameworks",
+                  "value": "cra,nis2,gdpr",
+                  "description": "Comma-separated list of framework slugs (max 5 recommended)",
+                  "disabled": true
+                },
+                {
+                  "key": "tag",
+                  "value": "risk-assessment",
+                  "description": "Filter articles to those with this tag slug",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Returns articles grouped by framework slug for side-by-side comparison.\nAccepts a comma-separated list of framework slugs. Optionally filter\narticles by tag to focus the comparison on a specific topic.\n"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
