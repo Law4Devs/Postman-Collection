@@ -1,7 +1,7 @@
 # Law4Devs API — Postman Collection
 
 > **Structured EU regulatory compliance data, ready to explore.**
-> 22 endpoints · 12 folders · OpenAPI 3.0.3 · REST · JSON
+> 22 endpoints · 12 folders · SDKs · OpenAPI 3.0.3 · REST · JSON
 
 ---
 
