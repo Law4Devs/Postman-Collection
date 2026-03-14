@@ -98,31 +98,31 @@ If the request succeeds, you're all set. Browse the other folders to explore the
 
 ## API Overview
 
-All endpoints are under `/api/v1/`. Responses follow a consistent envelope:
+All endpoints are under `/v1/`. Responses follow a consistent envelope:
 
 ```
-GET  /api/v1/health
-GET  /api/v1/frameworks
-GET  /api/v1/frameworks/:slug
-GET  /api/v1/frameworks/:slug/articles
-GET  /api/v1/frameworks/:slug/articles/:article_number
-GET  /api/v1/frameworks/:slug/articles/:article_number/related
-GET  /api/v1/frameworks/:slug/recitals
-GET  /api/v1/frameworks/:slug/recitals/:recital_number
-GET  /api/v1/frameworks/:slug/requirements
-GET  /api/v1/requirements
-GET  /api/v1/frameworks/:slug/annexes
-GET  /api/v1/frameworks/:slug/annexes/:annex_number
-GET  /api/v1/frameworks/:slug/compliance/deadlines
-GET  /api/v1/compliance/deadlines
-GET  /api/v1/frameworks/:slug/stats
-GET  /api/v1/stats
-GET  /api/v1/search
-GET  /api/v1/tags
-GET  /api/v1/tags/:slug
-GET  /api/v1/frameworks/:slug/changelog
-GET  /api/v1/changelog
-GET  /api/v1/compare
+GET  /v1/health
+GET  /v1/frameworks
+GET  /v1/frameworks/:slug
+GET  /v1/frameworks/:slug/articles
+GET  /v1/frameworks/:slug/articles/:article_number
+GET  /v1/frameworks/:slug/articles/:article_number/related
+GET  /v1/frameworks/:slug/recitals
+GET  /v1/frameworks/:slug/recitals/:recital_number
+GET  /v1/frameworks/:slug/requirements
+GET  /v1/requirements
+GET  /v1/frameworks/:slug/annexes
+GET  /v1/frameworks/:slug/annexes/:annex_number
+GET  /v1/frameworks/:slug/compliance/deadlines
+GET  /v1/compliance/deadlines
+GET  /v1/frameworks/:slug/stats
+GET  /v1/stats
+GET  /v1/search
+GET  /v1/tags
+GET  /v1/tags/:slug
+GET  /v1/frameworks/:slug/changelog
+GET  /v1/changelog
+GET  /v1/compare
 ```
 
 **Framework slugs** (use in `:slug` path parameters):
@@ -172,7 +172,7 @@ Invalid values return `400 INVALID_PARAM`.
 | Full Documentation | `https://docs.law4devs.eu/`  |
 | Interactive docs (Swagger UI) | `https://api.law4devs.eu/docs` |
 | Reference docs (ReDoc) | `https://api.law4devs.eu/redoc` |
-| Raw OpenAPI 3.0.3 spec (JSON) | `https://api.law4devs.eu/api/v1/openapi.json` |
+| Raw OpenAPI 3.0.3 spec (JSON) | `https://api.law4devs.eu/v1/openapi.json` |
 
 ---
 
