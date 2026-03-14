@@ -1,37 +1,66 @@
 {
   "info": {
-    "_postman_id": "992530ac-ddaf-4e48-8377-84465db0f9d3",
+    "_postman_id": "a59c1598-3abb-4cd4-82b4-3f3a4a3b2aa5",
     "name": "Law4Devs API",
-    "description": "Structured EU regulatory compliance data for developers.\n\nAll 19 major EU digital regulations \u2014 CRA, NIS2, DORA, GDPR, AI Act, eIDAS,\nDSA, DMA, Data Act, DGA, eIDAS2, CER, PSD2, MiCA, Cybersecurity Act,\nePrivacy, RED, CSRD, NIS1 \u2014 parsed into structured articles, recitals,\nrequirements, compliance deadlines, and tags.",
+    "description": "Structured EU regulatory compliance data for developers.\n\nAll 19 major EU digital regulations \u00e2\u20ac\u201d CRA, NIS2, DORA, GDPR, AI Act, eIDAS,\nDSA, DMA, Data Act, DGA, eIDAS2, CER, PSD2, MiCA, Cybersecurity Act,\nePrivacy, RED, CSRD, NIS1 \u00e2\u20ac\u201d parsed into structured articles, recitals,\nrequirements, compliance deadlines, and tags.\n\n## Response Conventions\n\n- **List responses** (paginated): `{ data: [...], meta: { api_version, total, page, per_page, pages }, links: { next, prev } }`\n- **List responses** (non-paginated): `{ data: [...], meta: { api_version, total } }`\n- **Detail responses**: `{ data: { ... } }`\n- **Error responses**: `{ error: { code: \"ERROR_CODE\", message: \"Human-readable message\" } }`\n\n## Pagination\n\nAll list endpoints accept `page` (\u00e2\u2030\u00a5 1, default 1) and `per_page` (1\u00e2\u20ac\u201c100, default 20).\nInvalid values return `400 INVALID_PARAM`.\n\nTotal endpoints: 22\n\n**Base URL:** `https://api.law4devs.eu/v1`\n\nImport the companion `law4devs.postman_environment.json` file, select the **Law4Devs \u2014 Production** environment, and set your `api_key` variable before sending requests.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-Key",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{api_key}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
   },
   "variable": [
     {
-      "key": "base_url",
-      "value": "https://api.law4devs.eu",
-      "type": "string",
-      "description": "Base URL of the Law4Devs API (no trailing slash)"
+      "key": "api_key",
+      "value": "",
+      "type": "secret",
+      "description": "Your Law4Devs API key (sent as X-API-Key header)"
     }
   ],
   "item": [
     {
-      "id": "a399e6b1-6271-4425-9345-9a16f6fc5359",
+      "id": "5966a29e-645e-4da5-b47e-42ea83ed53e6",
       "name": "Health",
       "description": "API and database health check",
       "item": [
         {
-          "id": "1c8669fb-8765-47e7-87a0-9d72bfae16ba",
+          "id": "21360de9-cb01-45d2-8cab-831ec3266255",
           "name": "Health check",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "description": "Your Law4Devs API key"
+              }
+            ],
             "url": {
-              "raw": "{{base_url}}/api/v1/health",
+              "raw": "https://api.law4devs.eu/v1/health",
+              "protocol": "https",
               "host": [
-                "{{base_url}}"
+                "api",
+                "law4devs",
+                "eu"
               ],
               "path": [
-                "api",
                 "v1",
                 "health"
               ]
@@ -43,25 +72,48 @@
       ]
     },
     {
-      "id": "e0d38418-d0cf-4279-ac54-9255ebd6637a",
+      "id": "7790fe8a-8272-4596-a4b2-ab4f51ce61d6",
       "name": "Frameworks",
       "description": "EU regulatory frameworks (CRA, NIS2, GDPR, etc.)",
       "item": [
         {
-          "id": "9e89ad7e-d990-415b-b643-611faad5ac35",
+          "id": "59673136-dc46-4c6d-82e1-d8117b11354b",
           "name": "List all active frameworks",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "description": "Your Law4Devs API key"
+              }
+            ],
             "url": {
-              "raw": "{{base_url}}/api/v1/frameworks",
+              "raw": "https://api.law4devs.eu/v1/frameworks",
+              "protocol": "https",
               "host": [
-                "{{base_url}}"
+                "api",
+                "law4devs",
+                "eu"
               ],
               "path": [
-                "api",
                 "v1",
                 "frameworks"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number (1-based)",
+                  "disabled": true
+                },
+                {
+                  "key": "per_page",
+                  "value": "20",
+                  "description": "Results per page (max 100)",
+                  "disabled": true
+                }
               ]
             },
             "description": "Returns all active EU regulatory frameworks ordered by slug."
@@ -69,18 +121,27 @@
           "response": []
         },
         {
-          "id": "85c1fe8f-328c-4e2e-bcd7-bbf012112e51",
+          "id": "b8a3a3cb-1f3d-4f34-b213-e0474b38a523",
           "name": "Get framework detail",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "description": "Your Law4Devs API key"
+              }
+            ],
             "url": {
-              "raw": "{{base_url}}/api/v1/frameworks/:slug",
+              "raw": "https://api.law4devs.eu/v1/frameworks/:slug",
+              "protocol": "https",
               "host": [
-                "{{base_url}}"
+                "api",
+                "law4devs",
+                "eu"
               ],
               "path": [
-                "api",
                 "v1",
                 "frameworks",
                 ":slug"
@@ -100,23 +161,32 @@
       ]
     },
     {
-      "id": "a2663564-ba9f-4f54-b8ba-94469c91ecd7",
+      "id": "e2b73f9e-68a9-42b5-902e-3751653ca1fa",
       "name": "Articles",
       "description": "Individual articles within a framework",
       "item": [
         {
-          "id": "850abed4-bd1b-4f72-a1f0-91683733b5b0",
+          "id": "5a75afbc-4514-4c6a-9a32-8cf45eb236ec",
           "name": "List articles for a framework",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "description": "Your Law4Devs API key"
+              }
+            ],
             "url": {
-              "raw": "{{base_url}}/api/v1/frameworks/:slug/articles",
+              "raw": "https://api.law4devs.eu/v1/frameworks/:slug/articles",
+              "protocol": "https",
               "host": [
-                "{{base_url}}"
+                "api",
+                "law4devs",
+                "eu"
               ],
               "path": [
-                "api",
                 "v1",
                 "frameworks",
                 ":slug",
@@ -161,18 +231,27 @@
           "response": []
         },
         {
-          "id": "d83c7922-325a-47b3-8ef8-44717d074d3f",
+          "id": "58a1faa8-b327-4d6d-8082-7240a4e919ff",
           "name": "Get a single article",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "description": "Your Law4Devs API key"
+              }
+            ],
             "url": {
-              "raw": "{{base_url}}/api/v1/frameworks/:slug/articles/:article_number",
+              "raw": "https://api.law4devs.eu/v1/frameworks/:slug/articles/:article_number",
+              "protocol": "https",
               "host": [
-                "{{base_url}}"
+                "api",
+                "law4devs",
+                "eu"
               ],
               "path": [
-                "api",
                 "v1",
                 "frameworks",
                 ":slug",
@@ -197,18 +276,27 @@
           "response": []
         },
         {
-          "id": "3eb6410c-d927-4654-9f32-464c9890e604",
+          "id": "c4a0998f-7676-4929-8741-45aef3d6cac1",
           "name": "Get related articles and requirements",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "description": "Your Law4Devs API key"
+              }
+            ],
             "url": {
-              "raw": "{{base_url}}/api/v1/frameworks/:slug/articles/:article_number/related",
+              "raw": "https://api.law4devs.eu/v1/frameworks/:slug/articles/:article_number/related",
+              "protocol": "https",
               "host": [
-                "{{base_url}}"
+                "api",
+                "law4devs",
+                "eu"
               ],
               "path": [
-                "api",
                 "v1",
                 "frameworks",
                 ":slug",
@@ -236,23 +324,32 @@
       ]
     },
     {
-      "id": "56c5de2d-c5a2-4beb-9803-c2c6c3b7c155",
+      "id": "86446145-4c19-49a9-80d3-7bff78d94e5d",
       "name": "Recitals",
       "description": "Recitals (preamble paragraphs) within a framework",
       "item": [
         {
-          "id": "58a37a1b-a100-4e40-8179-4a4d469ad9f0",
+          "id": "fe3fda5e-4ac2-43e3-b205-96139c4ca9ad",
           "name": "List recitals for a framework",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "description": "Your Law4Devs API key"
+              }
+            ],
             "url": {
-              "raw": "{{base_url}}/api/v1/frameworks/:slug/recitals",
+              "raw": "https://api.law4devs.eu/v1/frameworks/:slug/recitals",
+              "protocol": "https",
               "host": [
-                "{{base_url}}"
+                "api",
+                "law4devs",
+                "eu"
               ],
               "path": [
-                "api",
                 "v1",
                 "frameworks",
                 ":slug",
@@ -285,18 +382,27 @@
           "response": []
         },
         {
-          "id": "853d3dbc-8259-41ad-9012-1a08cb6dc626",
+          "id": "6562fff5-8a89-4abc-a798-61ae83e199cd",
           "name": "Get a single recital",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "description": "Your Law4Devs API key"
+              }
+            ],
             "url": {
-              "raw": "{{base_url}}/api/v1/frameworks/:slug/recitals/:recital_number",
+              "raw": "https://api.law4devs.eu/v1/frameworks/:slug/recitals/:recital_number",
+              "protocol": "https",
               "host": [
-                "{{base_url}}"
+                "api",
+                "law4devs",
+                "eu"
               ],
               "path": [
-                "api",
                 "v1",
                 "frameworks",
                 ":slug",
@@ -323,23 +429,32 @@
       ]
     },
     {
-      "id": "3a6026bd-fcf3-40ec-9e33-75f351e0fa72",
+      "id": "98532de5-a9d6-4195-8320-7f7835be7fef",
       "name": "Requirements",
       "description": "Extracted compliance requirements with stakeholder role mappings",
       "item": [
         {
-          "id": "b5955879-01e1-47dc-bd1e-8c2f13a6fa83",
+          "id": "f7adfedf-b3f1-4235-8333-14fbd7eb9dda",
           "name": "List requirements for a framework",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "description": "Your Law4Devs API key"
+              }
+            ],
             "url": {
-              "raw": "{{base_url}}/api/v1/frameworks/:slug/requirements",
+              "raw": "https://api.law4devs.eu/v1/frameworks/:slug/requirements",
+              "protocol": "https",
               "host": [
-                "{{base_url}}"
+                "api",
+                "law4devs",
+                "eu"
               ],
               "path": [
-                "api",
                 "v1",
                 "frameworks",
                 ":slug",
@@ -390,18 +505,27 @@
           "response": []
         },
         {
-          "id": "1cd0a63e-75ae-4cdf-9c3b-7f87b39c5363",
+          "id": "830e762a-75db-4211-966f-b77affe29b71",
           "name": "List requirements across all frameworks",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "description": "Your Law4Devs API key"
+              }
+            ],
             "url": {
-              "raw": "{{base_url}}/api/v1/requirements",
+              "raw": "https://api.law4devs.eu/v1/requirements",
+              "protocol": "https",
               "host": [
-                "{{base_url}}"
+                "api",
+                "law4devs",
+                "eu"
               ],
               "path": [
-                "api",
                 "v1",
                 "requirements"
               ],
@@ -451,23 +575,32 @@
       ]
     },
     {
-      "id": "5f4a86cf-2b81-401e-8385-7e784e42c445",
+      "id": "67ab3232-1b1b-4d65-8897-48df13c721c3",
       "name": "Annexes",
       "description": "Technical annexes attached to a framework",
       "item": [
         {
-          "id": "28c97547-4c2a-49f3-b36e-aaba04a446ad",
+          "id": "68bd9e70-ad12-4fa0-9177-bd196846155e",
           "name": "List annexes for a framework",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "description": "Your Law4Devs API key"
+              }
+            ],
             "url": {
-              "raw": "{{base_url}}/api/v1/frameworks/:slug/annexes",
+              "raw": "https://api.law4devs.eu/v1/frameworks/:slug/annexes",
+              "protocol": "https",
               "host": [
-                "{{base_url}}"
+                "api",
+                "law4devs",
+                "eu"
               ],
               "path": [
-                "api",
                 "v1",
                 "frameworks",
                 ":slug",
@@ -500,18 +633,27 @@
           "response": []
         },
         {
-          "id": "371c523c-89b9-4215-835c-c727efb4a195",
+          "id": "64eba95e-213b-4fa2-a872-49a0487e4c14",
           "name": "Get a single annex",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "description": "Your Law4Devs API key"
+              }
+            ],
             "url": {
-              "raw": "{{base_url}}/api/v1/frameworks/:slug/annexes/:annex_number",
+              "raw": "https://api.law4devs.eu/v1/frameworks/:slug/annexes/:annex_number",
+              "protocol": "https",
               "host": [
-                "{{base_url}}"
+                "api",
+                "law4devs",
+                "eu"
               ],
               "path": [
-                "api",
                 "v1",
                 "frameworks",
                 ":slug",
@@ -538,23 +680,32 @@
       ]
     },
     {
-      "id": "4f4ae3f6-7307-40f8-ae87-6d753e5a90d8",
+      "id": "0741c822-b81b-436e-b5ab-a1dbf2103900",
       "name": "Compliance",
       "description": "Compliance deadlines and key dates",
       "item": [
         {
-          "id": "67806e7f-62eb-4bb5-96a5-d0973d113278",
+          "id": "3ea0d5b0-a021-4323-9822-45448548eafb",
           "name": "List compliance deadlines for a framework",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "description": "Your Law4Devs API key"
+              }
+            ],
             "url": {
-              "raw": "{{base_url}}/api/v1/frameworks/:slug/compliance/deadlines",
+              "raw": "https://api.law4devs.eu/v1/frameworks/:slug/compliance/deadlines",
+              "protocol": "https",
               "host": [
-                "{{base_url}}"
+                "api",
+                "law4devs",
+                "eu"
               ],
               "path": [
-                "api",
                 "v1",
                 "frameworks",
                 ":slug",
@@ -574,18 +725,27 @@
           "response": []
         },
         {
-          "id": "dc55a315-fa93-403a-a7bc-139a177b8e67",
+          "id": "9a01a2e1-a9ab-4139-90b8-7db210671646",
           "name": "List all compliance deadlines across all frameworks",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "description": "Your Law4Devs API key"
+              }
+            ],
             "url": {
-              "raw": "{{base_url}}/api/v1/compliance/deadlines",
+              "raw": "https://api.law4devs.eu/v1/compliance/deadlines",
+              "protocol": "https",
               "host": [
-                "{{base_url}}"
+                "api",
+                "law4devs",
+                "eu"
               ],
               "path": [
-                "api",
                 "v1",
                 "compliance",
                 "deadlines"
@@ -595,6 +755,18 @@
                   "key": "framework",
                   "value": "cra",
                   "description": "Filter by framework slug",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number (1-based)",
+                  "disabled": true
+                },
+                {
+                  "key": "per_page",
+                  "value": "20",
+                  "description": "Results per page (max 100)",
                   "disabled": true
                 }
               ]
@@ -606,23 +778,32 @@
       ]
     },
     {
-      "id": "eed8b26b-9a16-457d-85d8-3dcc8b248bce",
+      "id": "06b4aebc-8925-4d36-8343-f99d893606fa",
       "name": "Stats",
       "description": "Coverage statistics per framework",
       "item": [
         {
-          "id": "39aee4b9-e26a-433d-9e59-8e13e5341662",
+          "id": "c7c6ebbf-ee7a-467f-aa9d-672cb7ede3c1",
           "name": "Coverage statistics for a single framework",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "description": "Your Law4Devs API key"
+              }
+            ],
             "url": {
-              "raw": "{{base_url}}/api/v1/frameworks/:slug/stats",
+              "raw": "https://api.law4devs.eu/v1/frameworks/:slug/stats",
+              "protocol": "https",
               "host": [
-                "{{base_url}}"
+                "api",
+                "law4devs",
+                "eu"
               ],
               "path": [
-                "api",
                 "v1",
                 "frameworks",
                 ":slug",
@@ -641,18 +822,27 @@
           "response": []
         },
         {
-          "id": "bdb78853-3c38-42fb-abc2-89cddd8d43a4",
+          "id": "2786009f-e748-4aa2-99ac-26fe6beb16c0",
           "name": "Coverage statistics for all active frameworks",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "description": "Your Law4Devs API key"
+              }
+            ],
             "url": {
-              "raw": "{{base_url}}/api/v1/stats",
+              "raw": "https://api.law4devs.eu/v1/stats",
+              "protocol": "https",
               "host": [
-                "{{base_url}}"
+                "api",
+                "law4devs",
+                "eu"
               ],
               "path": [
-                "api",
                 "v1",
                 "stats"
               ]
@@ -664,23 +854,32 @@
       ]
     },
     {
-      "id": "13719b67-59d2-4dc9-bfb7-d28231bba5e7",
+      "id": "5e8b806d-573e-445e-a27e-973bbaef8c56",
       "name": "Search",
       "description": "Full-text search across articles, recitals, and requirements",
       "item": [
         {
-          "id": "46b9e322-9e61-4e61-935e-3c0331790779",
+          "id": "8a867377-40f0-43dc-8346-a469959d7641",
           "name": "Full-text search across articles, recitals, and requirements",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "description": "Your Law4Devs API key"
+              }
+            ],
             "url": {
-              "raw": "{{base_url}}/api/v1/search",
+              "raw": "https://api.law4devs.eu/v1/search",
+              "protocol": "https",
               "host": [
-                "{{base_url}}"
+                "api",
+                "law4devs",
+                "eu"
               ],
               "path": [
-                "api",
                 "v1",
                 "search"
               ],
@@ -688,7 +887,7 @@
                 {
                   "key": "q",
                   "value": "cybersecurity requirements",
-                  "description": "Search query (2\u2013500 characters)",
+                  "description": "Search query (2\u00e2\u20ac\u201c500 characters)",
                   "disabled": true
                 },
                 {
@@ -736,25 +935,48 @@
       ]
     },
     {
-      "id": "8a9b6ddb-4724-4653-a8d0-fd1014e1300a",
+      "id": "56f2b6e5-d36d-40df-bdc9-43a583955ade",
       "name": "Tags",
       "description": "Semantic tags used to classify content",
       "item": [
         {
-          "id": "094c1589-4536-4971-8cd4-c63d0fe058b4",
+          "id": "4f68dc64-4c99-42e7-a66a-457978952d14",
           "name": "List all tags",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "description": "Your Law4Devs API key"
+              }
+            ],
             "url": {
-              "raw": "{{base_url}}/api/v1/tags",
+              "raw": "https://api.law4devs.eu/v1/tags",
+              "protocol": "https",
               "host": [
-                "{{base_url}}"
+                "api",
+                "law4devs",
+                "eu"
               ],
               "path": [
-                "api",
                 "v1",
                 "tags"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number (1-based)",
+                  "disabled": true
+                },
+                {
+                  "key": "per_page",
+                  "value": "20",
+                  "description": "Results per page (max 100)",
+                  "disabled": true
+                }
               ]
             },
             "description": "Returns all semantic tags used to classify articles and requirements."
@@ -762,18 +984,27 @@
           "response": []
         },
         {
-          "id": "41d7ea43-4da0-4db1-994d-8a230c9d793d",
+          "id": "8fe3e4a6-f2c2-447f-871f-b3f7b1b6f1f9",
           "name": "Get tag detail",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "description": "Your Law4Devs API key"
+              }
+            ],
             "url": {
-              "raw": "{{base_url}}/api/v1/tags/:slug",
+              "raw": "https://api.law4devs.eu/v1/tags/:slug",
+              "protocol": "https",
               "host": [
-                "{{base_url}}"
+                "api",
+                "law4devs",
+                "eu"
               ],
               "path": [
-                "api",
                 "v1",
                 "tags",
                 ":slug"
@@ -793,23 +1024,32 @@
       ]
     },
     {
-      "id": "3324b711-8f4e-4d72-bf64-e580f031c47d",
+      "id": "c382df78-0f23-43e5-a205-b79d96512bc2",
       "name": "Changelog",
       "description": "Content update history and data freshness",
       "item": [
         {
-          "id": "c4708592-b696-47a9-9204-944393805482",
+          "id": "34136480-ec1b-4cc2-9e3e-85d35c9ca15a",
           "name": "Content update history for a framework",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "description": "Your Law4Devs API key"
+              }
+            ],
             "url": {
-              "raw": "{{base_url}}/api/v1/frameworks/:slug/changelog",
+              "raw": "https://api.law4devs.eu/v1/frameworks/:slug/changelog",
+              "protocol": "https",
               "host": [
-                "{{base_url}}"
+                "api",
+                "law4devs",
+                "eu"
               ],
               "path": [
-                "api",
                 "v1",
                 "frameworks",
                 ":slug",
@@ -836,18 +1076,27 @@
           "response": []
         },
         {
-          "id": "f6aec862-3ab8-484d-9b0f-29724201f6ed",
+          "id": "635836aa-7714-48b5-bf58-2b75b53a39a5",
           "name": "Global content update changelog",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "description": "Your Law4Devs API key"
+              }
+            ],
             "url": {
-              "raw": "{{base_url}}/api/v1/changelog",
+              "raw": "https://api.law4devs.eu/v1/changelog",
+              "protocol": "https",
               "host": [
-                "{{base_url}}"
+                "api",
+                "law4devs",
+                "eu"
               ],
               "path": [
-                "api",
                 "v1",
                 "changelog"
               ],
@@ -879,23 +1128,32 @@
       ]
     },
     {
-      "id": "ee6d23dd-1a8c-4443-bd81-bd152e3efcb6",
+      "id": "e6945db7-29f9-4af5-b220-3b73186d1f68",
       "name": "Compare",
       "description": "Cross-framework article comparison",
       "item": [
         {
-          "id": "f85af7b8-511f-44cf-af98-e4b7bc092fe1",
+          "id": "0a03adac-36a1-4729-9428-a1f9f38891e4",
           "name": "Compare articles across multiple frameworks",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "description": "Your Law4Devs API key"
+              }
+            ],
             "url": {
-              "raw": "{{base_url}}/api/v1/compare",
+              "raw": "https://api.law4devs.eu/v1/compare",
+              "protocol": "https",
               "host": [
-                "{{base_url}}"
+                "api",
+                "law4devs",
+                "eu"
               ],
               "path": [
-                "api",
                 "v1",
                 "compare"
               ],
